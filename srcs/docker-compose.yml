@@ -12,6 +12,7 @@ services:
       - "443:443"
     volumes:
       - www-html:/var/www/$DOMAIN_NAME
+      - ./nginx-conf.d:/etc/nginx/conf.d
     networks:
       - app
 
