@@ -4,50 +4,48 @@ services:
   nginx:
     build: ./requirements/nginx/
     container_name: nginx
-    restart: unless-stopped
+    restart: always
     depends_on:
       - wordpress
     env_file: .env
     ports:
-      - "443:443"
+      - 443:443
     volumes:
-      - www-html:/var/www/$DOMAIN_NAME
-      - ./nginx-conf.d:/etc/nginx/conf.d
+      - www:/var/www/
     networks:
       - app
 
   wordpress:
     build: ./requirements/wordpress/
     container_name: wordpress
-    restart: unless-stopped
+    restart: always
     depends_on:
       - mariadb
     env_file: .env
-    environment:
-      - WORDPRESS_DB_HOST=
-      - WORDPRESS_DB_USER=$MYSQL_USER
-      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
+#    environment:
+#      - WORDPRESS_DB_HOST=
+#      - WORDPRESS_DB_USER=$MYSQL_USER
+#      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+#      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
     volumes:
-      - www-html:/var/www/$DOMAIN_NAME
+      - www:/var/www/
     networks:
       - app
 
   mariadb:
     build: ./requirements/mariadb/
     container_name: mariadb
-    restart: unless-stopped
+    restart: always
     env_file: .env
     volumes:
-      - dbfile:/var/lib/mysql
-    command: '--default-authentication-plugin=mysql_native_password'
+      - db:/var/lib/mysql
     networks:
       - app
 
 volumes:
-  www-html:
-  dbfile:
+  www:
+  db:
 
 networks:
   app:
-    driver: bridge
+    driver: local
