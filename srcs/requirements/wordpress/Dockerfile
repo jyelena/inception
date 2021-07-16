@@ -10,7 +10,10 @@ COPY ./conf/wp-config.php /var/www/ftsite/
 COPY ./tools/start.sh /tmp
 
 RUN mkdir -p /var/run/php
-RUN echo "listen = 9000" >> etc/php7/php-fpm.d/www.conf
+RUN mkdir -p /etc/php/php-fpm.d
+
+
+RUN echo "listen = 9000" >> /etc/php/php-fpm.d/www.conf
 VOLUME /var/www/ftsite
 EXPOSE 9000
 
