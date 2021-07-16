@@ -7,5 +7,7 @@ RUN openssl rsa -noout -text -in /etc/nginx/ssl_certs/public.key
 
 COPY ./conf/nginx.conf /etc/nginx/sites-available/ftsite.conf
 COPY ./tools/server_init.sh /tmp/
+
 EXPOSE 443
-ENTRYPOINT sh /tmp/server_init.sh && cat /var/log/nginx/error.log && /bin/bash
+
+ENTRYPOINT /usr/sbin/nging -g "daemon off;"
