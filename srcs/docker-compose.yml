@@ -16,7 +16,7 @@ services:
       depends_on:
        - wordpress
       ports:
-       - "443:443"
+       - 443:443
       restart: always
       networks:
        - net
@@ -45,10 +45,10 @@ volumes:
       driver_opts:
         type: "none"
         o: "bind"
-        device: /home/jyelena/db
+        device: /home/dmikhaylov/db
     vol_wp:
       driver: local
       driver_opts:
         type: "none"
         o: "bind"
-        device: /home/jyelena/www
+        device: /home/dmikhaylov/www
