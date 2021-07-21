@@ -1,20 +1,17 @@
-FROM debian:buster
-RUN apt-get update && apt-get install -y php php-mysql php-fpm php-mbstring wget unzip vim
+FROM    debian:buster
 
-WORKDIR /tmp
-RUN wget https://wordpress.org/latest.zip
-RUN unzip latest.zip
-RUN mkdir -p /var/www && mv wordpress /var/www/ftsite
+RUN		apt-get update \
+		&& apt-get install -y php php-fpm php-mbstring php-mysql wget unzip
 
-COPY ./conf/wp-config.php /var/www/ftsite/
-COPY ./tools/start.sh /tmp
+RUN		mkdir -p /var/www
+RUN     wget https://wordpress.org/latest.zip
+RUN     unzip latest.zip
+RUN     mv wordpress /var/www/ftsite
+COPY    conf/wp-config.php /var/www/ftsite/
+COPY    ./tools/start.sh .
 
-RUN mkdir -p /var/run/php
-RUN mkdir -p /etc/php/php-fpm.d
+EXPOSE  9000
 
+VOLUME  ["/var/www/ftsite"]
 
-RUN echo "listen = 9000" >> /etc/php/php-fpm.d/www.conf
-VOLUME /var/www/ftsite
-EXPOSE 9000
-
-CMD sh /tmp/start.sh
+CMD		sh start.sh

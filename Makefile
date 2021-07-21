@@ -1,42 +1,25 @@
-all:    buildall
+COMPOSE=srcs/docker-compose.yml
+COMMAND=docker-compose -f $(COMPOSE)
+D=docker
 
-docker-build:   nginx wordpress mariadb
+all:	up
 
-nginx:
-		docker build --tag nginx ./srcs/requirements/nginx
+re:		stop up
 
-wordpress:
-		docker build --tag wordpress ./srcs/requirements/wordpress
-
-mariadb:
-		docker build --tag mariadb ./srcs/requirements/mariaDB
-
-buildall:
-		cd ./srcs/ && docker-compose up -d
-
-ps:
-		cd ./srcs/ && docker-compose ps
+up:
+	$(COMMAND) up -d --build
 
 stop:
-		cd ./srcs/ && docker-compose stop
+	$(COMMAND) stop
 
 down:
-		cd ./srcs/ && docker-compose down
+	$(COMMAND) down
 
-rm:
-		docker rm $$(docker ps -qa)
+start:
+	$(COMMAND) start
 
-rmi:
-		docker rmi -f $$(docker images -q)
+clear_all: stop down
+	$(D) rm $$($(D) ps -qa)
+	$(D) rmi -f $$($(D) images -q)
 
-logs:
-		cd ./srcs/ && docker-compose logs -f
-
-rmwordpress:
-		docker rmi -f wordpress
-
-rmnginx:
-		docker rmi -f nginx
-
-rmmariadb:
-		docker rmi -f mariadb
+.PHONY:	all up stop down start re

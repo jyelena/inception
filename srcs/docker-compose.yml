@@ -1,51 +1,54 @@
-version: '3.3'
+version: "3.3"
 
 services:
-  nginx:
-    build: ./requirements/nginx/
-    container_name: nginx
-    restart: always
-    depends_on:
-      - wordpress
-    env_file: .env
-    ports:
-      - 443:443
-    volumes:
-      - www:/var/www/
-    networks:
-      - app
-
-  wordpress:
-    build: ./requirements/wordpress/
-    container_name: wordpress
-    restart: always
-    depends_on:
-      - mariadb
-    env_file: .env
-#    environment:
-#      - WORDPRESS_DB_HOST=
-#      - WORDPRESS_DB_USER=$MYSQL_USER
-#      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-#      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
-    volumes:
-      - www:/var/www/
-    networks:
-      - app
-
-  mariadb:
-    build: ./requirements/mariadb/
-    container_name: mariadb
-    restart: always
-    env_file: .env
-    volumes:
-      - db:/var/lib/mysql
-    networks:
-      - app
-
-volumes:
-  www:
-  db:
+    mariadb:
+      build: ./requirements/mariadb
+      container_name: mariadb
+      restart: always
+      networks:
+      - net
+      volumes:
+      - vol_db:/var/lib/mysql/
+      env_file: .env
+    nginx:
+      build: ./requirements/nginx/
+      container_name: nginx
+      depends_on:
+       - wordpress
+      ports:
+       - "443:443"
+      restart: always
+      networks:
+       - net
+      volumes:
+       - vol_wp:/var/www/
+      extra_hosts:
+        - ${DOMAIN_NAME}:127.0.0.1
+    wordpress:
+      build: ./requirements/wordpress/
+      container_name: wordpress
+      depends_on:
+       - mariadb
+      restart: always
+      networks:
+       - net
+      volumes:
+       - vol_wp:/var/www/
+      env_file: .env
 
 networks:
-  app:
-    driver: local
+    net:
+
+volumes:
+    vol_db:
+      driver: local
+      driver_opts:
+        type: "none"
+        o: "bind"
+        device: $(PWD)/srcs/requirements/tools/db
+    vol_wp:
+      driver: local
+      driver_opts:
+        type: "none"
+        o: "bind"
+        device: $(PWD)/srcs/requirements/tools/www

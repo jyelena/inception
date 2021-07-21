@@ -1,5 +1,10 @@
-FROM debian:buster
-RUN apt-get update && apt-get install -y default-mysql-server
+FROM    debian:buster
 
-COPY ./tools/*.* /tmp/
-ENTRYPOINT sh /tmp/server_init.sh && /bin/bash
+RUN		apt-get update \
+		&& apt-get install -y default-mysql-server php-mysql
+
+COPY    conf/my.cnf /etc/mysql/
+COPY	tools/start.sh .
+EXPOSE	3306
+VOLUME	["/var/lib"]
+CMD		sh start.sh
