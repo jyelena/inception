@@ -5,6 +5,7 @@ RUN		apt-get update \
 
 COPY    conf/my.cnf /etc/mysql/
 COPY	tools/start.sh .
+
 EXPOSE	3306
 VOLUME	["/var/lib"]
-CMD		sh start.sh
+ENTRYPOINT  sh start.sh
