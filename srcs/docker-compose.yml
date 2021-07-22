@@ -45,10 +45,10 @@ volumes:
       driver_opts:
         type: "none"
         o: "bind"
-        device: /home/dmikhaylov/db
+        device: /home/${USER}/data/db
     vol_wp:
       driver: local
       driver_opts:
         type: "none"
         o: "bind"
-        device: /home/dmikhaylov/www
+        device: /home/${USER}/data/www

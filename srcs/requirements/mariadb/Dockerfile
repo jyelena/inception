@@ -8,4 +8,4 @@ COPY	tools/start.sh .
 
 EXPOSE	3306
 VOLUME	["/var/lib"]
-ENTRYPOINT  sh start.sh
+CMD  sh start.sh

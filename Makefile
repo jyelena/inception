@@ -18,8 +18,6 @@ down:
 start:
 	$(COMMAND) start
 
-clear_all: stop down
-	$(D) rm $$($(D) ps -qa)
-	$(D) rmi -f $$($(D) images -q)
+clear: stop down
 
-.PHONY:	all up stop down start re
+.PHONY:	all up stop down start re clear
