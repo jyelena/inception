@@ -6,7 +6,7 @@ services:
       container_name: mariadb
       restart: always
       networks:
-      - net
+      - docker-network
       volumes:
       - vol_db:/var/lib/mysql/
       env_file: .env
@@ -19,7 +19,7 @@ services:
        - 443:443
       restart: always
       networks:
-       - net
+       - docker-network
       volumes:
        - vol_wp:/var/www/
       extra_hosts:
@@ -31,13 +31,13 @@ services:
        - mariadb
       restart: always
       networks:
-       - net
+       - docker-network
       volumes:
        - vol_wp:/var/www/
       env_file: .env
 
 networks:
-    net:
+  docker-network:
 
 volumes:
     vol_db:

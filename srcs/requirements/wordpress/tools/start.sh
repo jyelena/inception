@@ -1,6 +1,6 @@
-echo test >> /var/www/ftsite/zzz.txt
+#!/bin/bash
 
-if [ ! -f /var/www/ftsite/wp-config.php ]; then
+if [ -f /tmp/wp-config.php ]; then
     sed -i "s/DB__NAME/$DB_NAME/g" /tmp/wp-config.php
     sed -i "s/DB__USER/$DB_USER/g" /tmp/wp-config.php
     sed -i "s/DB__PASSWORD/$DB_PASSWORD/g" /tmp/wp-config.php
