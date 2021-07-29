@@ -20,8 +20,6 @@ down:
 start:
 	$(COMMAND) start
 
-clear: stop down
-
 info:
 	@echo 'ACTIVE CONTAINERS_____________________________'
 	@echo
@@ -40,4 +38,4 @@ info:
 	@$(COMMAND) images
 	
 
-.PHONY:	all up stop down start re clear
+.PHONY:	all up stop down start re
