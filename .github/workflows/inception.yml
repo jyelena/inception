@@ -1,6 +1,12 @@
 name: inception
-  on:
-    push:
-      branches:
-        main
-  jobs:
+on  :
+  push:
+    branches: 
+    - main
+
+jobs:
+  testing_job:
+    runs-on: debian-latest
+    steps:
+      - name: Greeting
+        run : echo "testing job"
