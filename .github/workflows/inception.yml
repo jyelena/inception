@@ -6,7 +6,7 @@ on  :
 
 jobs:
   testing_job:
-    runs-on: debian-buster
+    runs-on: ubuntu-latest
     steps:
       - name: Greeting
         run : echo "testing job"
